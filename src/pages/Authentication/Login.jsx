@@ -152,7 +152,7 @@ const Login = () => {
                 text="Processing..."
             />
 
-            <Container fluid className="" style={{ width: '50%' }}>
+            <Container fluid className="" style={{ width: '60%' }}>
                 <Col lg="12" md="12" sm="12" className="justify-content-center">
 
                     <Row className="mb-4" style={{ color: '#DEF2FF' }}>
@@ -191,7 +191,7 @@ const Login = () => {
                                 {message}
                             </Alert>}
 
-                            <Row className="">
+                            <Row className="bg-info">
                                 <Typography
                                     variant="body2"
                                     sx={{
@@ -277,22 +277,24 @@ const Login = () => {
                                 />
                             </Row>
 
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="dark"
-                                fullWidth
-                                sx={{
-                                    mt: 3,
-                                    // py: 1.2,
-                                    borderRadius: 2,
-                                    backgroundColor: "#3B82F6",
-                                    "&:hover": { backgroundColor: "#2563EB" }
-                                }}
-                                disabled={formik.isSubmitting}
-                            >
-                                {formik.isSubmitting ? "Processing..." : "Login"}
-                            </Button>
+                            <Row>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="dark"
+                                    fullWidth
+                                    sx={{
+                                        mt: 3,
+                                        // py: 1.2,
+                                        borderRadius: 2,
+                                        backgroundColor: "#3B82F6",
+                                        "&:hover": { backgroundColor: "#2563EB" }
+                                    }}
+                                    disabled={formik.isSubmitting}
+                                >
+                                    {formik.isSubmitting ? "Processing..." : "Login"}
+                                </Button>
+                            </Row>
                         </Box>
                     </Row>
 
