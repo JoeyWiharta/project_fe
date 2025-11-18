@@ -331,7 +331,7 @@ const Login = () => {
                                                         onClick={() => setShowPassword(!showPassword)}
                                                         edge="end"
                                                     >
-                                                        {showPassword ? <VisibilityOff /> : <VisibilityOutlinedIcon />}
+                                                        {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             )
@@ -382,6 +382,7 @@ const Login = () => {
                                 Don't have an account?
                                 <Button
                                     sx={{
+                                        fontWeight: 'bold',
                                         color: '#636CCB',
                                         textTransform: "none",
                                         "&:hover": {
