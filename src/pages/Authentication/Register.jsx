@@ -31,6 +31,7 @@ const Register = () => {
     const [message, setMessage] = useState("");
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [showRePassword, setShowRePassword] = useState(false);
 
     // Function Handle Login
     // Login with API
@@ -82,12 +83,16 @@ const Register = () => {
         initialValues:
         {
             username: "",
+            email: "",
             password: "",
+            rePassword: "",
         },
         validationSchema: Yup.object
             ({
-                username: Yup.string().required("Email or Username is required."),
+                username: Yup.string().required("Username is required."),
+                email: Yup.string().required("Email is required."),
                 password: Yup.string().required("Password is required."),
+                rePassword: Yup.string().required("Please confirm your password.").oneOf([Yup.ref("password"), null], "Password do not match"),
             }),
 
         onSubmit: async (values, { setSubmitting }) => {
@@ -211,7 +216,7 @@ const Register = () => {
                 <Col lg="12" md="12" sm="12" className="justify-content-center ">
 
                     <Row className="mb-4" style={{ color: '#DEF2FF' }}>
-                        <div className="text-center mb-4">
+                        <div className="text-center mb-2">
                             <Typography variant="h3" fontWeight="bold" >
                                 Hello!
                             </Typography>
@@ -221,7 +226,7 @@ const Register = () => {
                         </div>
 
                         <div className="text-center">
-                            <Typography variant="h5" fontWeight="medium" className="mt-3">
+                            <Typography variant="h5" fontWeight="medium" className="mt-2">
                                 Sign Up
                             </Typography>
                         </div>
@@ -388,16 +393,16 @@ const Register = () => {
                                 <TextField
                                     variant="outlined"
                                     placeholder="Confirm password"
-                                    name="ConfirmPassword"
-                                    type={showPassword ? 'text' : 'password'}
+                                    name="rePassword"
+                                    type={showRePassword ? 'text' : 'password'}
                                     size="medium"
                                     fullWidth
                                     margin="normal"
-                                    value={formik.values.password}
+                                    value={formik.values.rePassword}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.password && Boolean(formik.errors.password)}
-                                    helperText={formik.touched.password && formik.errors.password}
+                                    error={formik.touched.rePassword && Boolean(formik.errors.rePassword)}
+                                    helperText={formik.touched.rePassword && formik.errors.rePassword}
                                     sx={textFieldDarkSx}
                                     slotProps={{
                                         input: {
@@ -409,10 +414,10 @@ const Register = () => {
                                             endAdornment: (
                                                 <InputAdornment position="start">
                                                     <IconButton
-                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        onClick={() => setShowRePassword(!showRePassword)}
                                                         edge="end"
                                                     >
-                                                        {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
+                                                        {showRePassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             )
