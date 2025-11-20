@@ -110,10 +110,13 @@ const Login = () => {
 
     // Custom Style TextField
     const textFieldDarkSx = {
+        // jika FormControl memiliki OutlinedInput.error → ubah margin bottom
+        "&:has(.MuiOutlinedInput-root.Mui-error)": {
+            marginBottom: "-5px",
+        },
         "& .MuiOutlinedInput-root": {
             color: "white",
             borderRadius: "15px",
-            borderWidth: '2px',
 
             "& fieldset": {
                 borderColor: "#352F44",
