@@ -27,9 +27,11 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ListApi from "../../utils/ListApi";
 import { textFieldCustom } from "../../themes/theme"
+import AlertMessage from "../../common/AlertMessage";
 
 const Login = () => {
     const { login } = useAuth();
+    const [showAlert, setShowAlert] = useState(false)
     const [message, setMessage] = useState("");
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +40,6 @@ const Login = () => {
     // Function Handle Login
     // Login with API
     const handleLogin = async (values) => {
-        debugger
         try {
             const response = await axiosInstance().post(ListApi.auth.login, {
                 username_or_email: values.username,
@@ -48,39 +49,19 @@ const Login = () => {
             })
             login(response.data.data)
 
-            debugger
             if (response.status == 200) {
                 navigate("/");
-                console.log("Login Succeed")
-            } else {
-                setMessage(response.message)
-                console.log("Login Failed")
+                console.log("Login Success")
             }
         } catch (error) {
-            setMessage(error.response.data.message)
+            setShowAlert(true)
+            if (error.response) {
+                setMessage(error.response.data.message)
+            } else {
+                setMessage(error.message)
+            }
         }
     }
-    // Login With dummy
-    // const handleLogin = (values) => {
-    //     const dummyUser = {
-    //         username: "admin",
-    //         password: "123456",
-    //     };
-    //     debugger
-    //     // validasi input
-    //     if (values.username === dummyUser.username && values.password === dummyUser.password) {
-    //         // simpan data user ke state auth
-    //         debugger
-    //         login(dummyUser);
-
-    //         // redirect
-    //         navigate("/");
-    //     }
-    //     else {
-    //         debugger
-    //         setMessage("Username atau password salah!");
-    //     }
-    // }
 
     // Validation Form
     const formik = useFormik({
@@ -95,15 +76,20 @@ const Login = () => {
                 password: Yup.string().required("Password is required."),
             }),
 
-        onSubmit: async (values, { setSubmitting }) => {
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
             debugger
             setMessage("");
             setLoadingSpinner(true);
             try {
-                handleLogin(values);
+                await handleLogin(values);
             } finally {
                 setSubmitting(false);
                 setLoadingSpinner(false);
+                setTimeout(() => {
+                    setShowAlert(false);
+                    setMessage("");
+                }, 3000);
+                resetForm()
             }
         },
     });
@@ -117,7 +103,15 @@ const Login = () => {
                 text="Processing..."
             />
 
+            <AlertMessage
+                open={showAlert}
+                severity="error"
+                message={message}
+                onClose={() => setShowAlert(false)}
+            />
+
             <Container fluid className="" style={{ width: '65%' }}>
+
                 <Col lg="12" md="12" sm="12" className="justify-content-center ">
 
                     <Row className="mb-4" style={{ color: '#DEF2FF' }}>
@@ -143,23 +137,6 @@ const Login = () => {
                             onSubmit={formik.handleSubmit}
                             className="w-75 d-flex flex-column gap-1"
                         >
-                            <Row>
-                                {message && <Alert
-                                    severity="error"
-                                    fullWidth
-                                    sx={{
-                                        backgroundColor: "rgba(255, 76, 76, 0.12)",
-                                        color: "#FF6B6B",
-                                        border: "1px solid rgba(255, 107, 107, 0.3)",
-                                        backdropFilter: "blur(4px)",
-                                        borderRadius: "10px",
-                                    }}
-                                    className="p-0 m-0 w-100"
-                                >
-                                    {message}
-                                </Alert>}
-                            </Row>
-
                             <Row className="mb-2">
                                 <Typography
                                     variant="body2"
